@@ -1,0 +1,46 @@
+{
+  "n8": {
+    "n": 8,
+    "k": 3,
+    "num_equally_fair_juries": 5,
+    "best_cost": 1.265,
+    "standard": {
+      "p_fair_jury": 0.20569221848382854,
+      "fairness_score": 0.9979059120626238,
+      "max_over_min": 1.2559741781093194,
+      "measured_p_fair_jury": 0.2016,
+      "measured_fairness_score": 0.9972865546166858,
+      "measured_max_over_min": 1.322349570200573
+    },
+    "fair": {
+      "p_fair_jury": 0.8235620446261548,
+      "fairness_score": 1.0000000000000002,
+      "max_over_min": 1.0,
+      "measured_p_fair_jury": 0.8205,
+      "measured_fairness_score": 0.9999501444089016,
+      "measured_max_over_min": 1.0386774797255147
+    }
+  },
+  "n12": {
+    "n": 12,
+    "k": 4,
+    "num_equally_fair_juries": 9,
+    "best_cost": 0.56,
+    "standard": {
+      "p_fair_jury": 0.044480418396633484,
+      "fairness_score": 0.96679813948594,
+      "max_over_min": 3.170281280558495,
+      "measured_p_fair_jury": 0.0422,
+      "measured_fairness_score": 0.9717385292300541,
+      "measured_max_over_min": 3.0
+    },
+    "fair": {
+      "p_fair_jury": 0.14615758134819345,
+      "fairness_score": 1.0,
+      "max_over_min": 1.0,
+      "measured_p_fair_jury": 0.1493,
+      "measured_fairness_score": 0.999304251896922,
+      "measured_max_over_min": 1.1716171617161717
+    }
+  }
+}
