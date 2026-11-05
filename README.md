@@ -1,4 +1,4 @@
-# Qubench ⚖️⚛️
+# Qubench
 **Quantum-fair jury selection: random, representative, and checkable.**
 Built with Qiskit for IBM Qiskit Fall Fest 2026 (UW Quantum Club).
 
