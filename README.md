@@ -43,8 +43,6 @@ Nine juries are equally balanced, so each should be picked about 11% of the time
 ### On a noisy IBM chip
 <img width="100%" alt="Noisy IBM chip" src="https://github.com/user-attachments/assets/f3b756fe-b6f2-4db1-9f48-32790064e03f" />
 
-The fair circuit is about 10× deeper, and today's hardware noise washes out its advantage.
-
 On a **noisy simulation of a real IBM chip** (6 choose 2): the fair circuit needs ~400 two-qubit gates vs
 ~46 for standard QAOA, and noise washes out its advantage (fair 10% / 1.27×, standard 15% / 1.16×).
 The algorithm is provably fair; today's hardware isn't yet good enough to run it faithfully.
