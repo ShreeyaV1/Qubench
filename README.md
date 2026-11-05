@@ -31,22 +31,17 @@ print(result["receipt"])   # everything needed to check the draw
 | 12 choose 4 (9 equally fair juries) | Standard QAOA | 4% | 3.17× |
 | | **Fair QAOA (Grover mixer)** | **15%** | **1.00×** |
 
-<img width="2220" height="1000" alt="image" src="https://github.com/user-attachments/assets/882bd81f-e628-40f5-b757-e32234976247" />
-
-<img width="2000" height="840" alt="image" src="https://github.com/user-attachments/assets/e28bf3ea-04a8-42af-b2a7-e28c86eba1ab" />
-
-<img width="2200" height="840" alt="image" src="https://github.com/user-attachments/assets/f3b756fe-b6f2-4db1-9f48-32790064e03f" />
 
 ### Standard QAOA plays favourites; fair QAOA doesn't
-DRAG fig1_who_gets_picked_n12.png HERE
+<img width="100%" alt="Who gets picked" src="https://github.com/user-attachments/assets/882bd81f-e628-40f5-b757-e32234976247" />
 
 Nine juries are equally balanced, so each should be picked about 11% of the time. Standard QAOA picks some 3.2× more often than others; the Grover-mixer version treats all of them equally.
 
 ### Fairer and better at finding fair juries
-DRAG fig2_summary.png HERE
+<img width="100%" alt="Summary" src="https://github.com/user-attachments/assets/e28bf3ea-04a8-42af-b2a7-e28c86eba1ab" />
 
 ### On a noisy IBM chip
-DRAG fig5_hardware_fake.png HERE
+<img width="100%" alt="Noisy IBM chip" src="https://github.com/user-attachments/assets/f3b756fe-b6f2-4db1-9f48-32790064e03f" />
 
 The fair circuit is about 10× deeper, and today's hardware noise washes out its advantage.
 
