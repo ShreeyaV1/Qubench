@@ -1,0 +1,181 @@
+<!-- ===================== THE BENCH (main site) ===================== -->
+<main class="bench" id="bench">
+  <header class="intro-block">
+    <div class="label">The bench</div>
+    <h2>Draw a fair jury</h2>
+    <p class="lead">Pick a juror pool and a method. Every draw comes from real measurements of our Qiskit circuits, with a receipt anyone can check.</p>
+  </header>
+
+  <section class="card controls" aria-label="Settings">
+    <h3>1. Juror pool</h3>
+    <label class="field">
+      <span class="sr">Example pool</span>
+      <select id="pool">
+        <option value="8">8 potential jurors (choose 3)</option>
+        <option value="12">12 potential jurors (choose 4)</option>
+        <option value="6">6 potential jurors (choose 2) · hardware size</option>
+      </select>
+    </label>
+    <div class="upload">
+      <label class="field"><span class="small">…or upload your own juror list (Excel or CSV, 3 to 12 people)</span>
+        <input type="file" id="csvFile" accept=".csv,.xlsx,.xls,.xlsm,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"></label>
+      <label class="field krow" id="kRow" hidden><span class="small">Jury size for your list</span>
+        <input type="number" id="kInput" min="2" value="3"></label>
+      <p class="hint">Columns: <code>juror_id, name, neighbourhood, age_group, gender</code>. Works with Excel (.xlsx, .xls) or CSV. Neighbourhood is North, South, East
+        or West; age group is 18-34, 35-54 or 55+; gender is Woman or Man. <a href="juror_template.xlsx" download>Download the Excel template</a> (2 examples, dropdowns, room for 12)</p>
+      <p class="upmsg" id="upMsg" role="status" aria-live="polite"></p>
+    </div>
+    <h3>2. Method</h3>
+    <div class="radios" role="radiogroup" aria-label="Selection method">
+      <label><input type="radio" name="method" value="fair" checked> Fair QAOA (Grover mixer) · recommended</label>
+      <label><input type="radio" name="method" value="standard"> Standard QAOA</label>
+      <label><input type="radio" name="method" value="random"> Plain random draw (no balancing)</label>
+    </div>
+    <label class="field">
+      <span class="small">Quantum measurements (shots)</span>
+      <select id="shots">
+        <option value="1000">1,000</option><option value="2000">2,000</option>
+        <option value="4000" selected>4,000</option><option value="8000">8,000</option>
+      </select>
+    </label>
+    <p class="note">All people are fictional. With the live server running, every draw runs our QAOA circuits on the
+      Qiskit Aer simulator; otherwise draws use 20,000 real measurements saved from those same circuits.</p>
+    <div class="badge off" id="liveBadge"><i></i>Checking for the live Qiskit server…</div>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" aria-selected="true" aria-controls="p-draw" id="t-draw">Draw a jury</button>
+    <button role="tab" aria-selected="false" aria-controls="p-fair" id="t-fair">Is the algorithm fair?</button>
+    <button role="tab" aria-selected="false" aria-controls="p-hw" id="t-hw">Real hardware</button>
+    <button role="tab" aria-selected="false" aria-controls="p-how" id="t-how">How it works</button>
+  </div>
+
+  <!-- Draw a jury -->
+  <section class="panel" role="tabpanel" id="p-draw" aria-labelledby="t-draw">
+    <h2>Juror pool</h2>
+    <div id="poolTable"></div>
+    <button class="primary" id="drawBtn">⚖ Draw jury</button>
+    <div class="results" id="results">
+      <div class="empty">Choose a pool and method, then press <b>Draw jury</b>.</div>
+    </div>
+  </section>
+
+  <!-- Fairness -->
+  <section class="panel" role="tabpanel" id="p-fair" aria-labelledby="t-fair" hidden>
+    <div class="fairhead">
+      <div>
+        <h2>A fair jury needs a fair algorithm</h2>
+        <p class="lead">Many different juries can be <b>equally balanced</b>. A fair system must pick each of them with the
+          <b>same chance</b>. This test uses all 20,000 Qiskit measurements of each method.</p>
+        <button class="primary inline" id="fairBtn">Run fairness test</button>
+      </div>
+      <figure class="scale-fig" aria-hidden="true">
+        <svg id="scale" viewBox="0 0 440 400">
+          <defs>
+            <linearGradient id="sWood" x1="0" x2="1"><stop offset="0" stop-color="#4a2511"/><stop offset=".3" stop-color="#a8673b"/><stop offset=".6" stop-color="#7c4323"/><stop offset="1" stop-color="#3a1c0c"/></linearGradient>
+            <linearGradient id="sWoodH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b0703f"/><stop offset=".5" stop-color="#7c4323"/><stop offset="1" stop-color="#3a1c0c"/></linearGradient>
+            <linearGradient id="sPan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a5a33"/><stop offset="1" stop-color="#4a2511"/></linearGradient>
+            <linearGradient id="sBrass" x1="0" x2="1"><stop offset="0" stop-color="#6e521d"/><stop offset=".4" stop-color="#e2c27a"/><stop offset="1" stop-color="#7d5d22"/></linearGradient>
+            <radialGradient id="sBall" cx=".35" cy=".35" r=".7"><stop offset="0" stop-color="#b0703f"/><stop offset="1" stop-color="#4a2511"/></radialGradient>
+            <radialGradient id="sBallR" cx=".35" cy=".35" r=".7"><stop offset="0" stop-color="#c4545f"/><stop offset="1" stop-color="#6b1a24"/></radialGradient>
+          </defs>
+          <ellipse cx="220" cy="378" rx="150" ry="10" fill="rgba(48,20,19,.18)"/>
+          <!-- base and pillar -->
+          <rect x="150" y="352" width="140" height="18" rx="3" fill="url(#sWood)"/>
+          <rect x="168" y="336" width="104" height="18" rx="3" fill="url(#sWood)"/>
+          <rect x="188" y="320" width="64" height="18" rx="3" fill="url(#sWood)"/>
+          <rect x="211" y="70" width="18" height="252" rx="6" fill="url(#sWood)"/>
+          <rect x="207" y="110" width="26" height="8" rx="3" fill="url(#sBrass)"/>
+          <rect x="207" y="290" width="26" height="8" rx="3" fill="url(#sBrass)"/>
+          <!-- left pan (stays upright) -->
+          <g id="panL">
+            <path d="M60 78 L22 214 M60 78 L98 214" stroke="#6b5136" stroke-width="1.6" fill="none"/>
+            <circle cx="47" cy="208" r="13" fill="url(#sBallR)"/>
+            <circle cx="73" cy="208" r="13" fill="url(#sBall)"/>
+            <path d="M10 214 Q60 246 110 214 Z" fill="url(#sPan)"/>
+            <ellipse cx="60" cy="214" rx="50" ry="5" fill="#5e3119"/>
+            <circle cx="60" cy="78" r="5" fill="url(#sBrass)"/>
+          </g>
+          <!-- right pan -->
+          <g id="panR">
+            <path d="M380 78 L342 214 M380 78 L418 214" stroke="#6b5136" stroke-width="1.6" fill="none"/>
+            <circle cx="367" cy="208" r="13" fill="url(#sBall)"/>
+            <circle cx="393" cy="208" r="13" fill="url(#sBallR)"/>
+            <path d="M330 214 Q380 246 430 214 Z" fill="url(#sPan)"/>
+            <ellipse cx="380" cy="214" rx="50" ry="5" fill="#5e3119"/>
+            <circle cx="380" cy="78" r="5" fill="url(#sBrass)"/>
+          </g>
+          <!-- beam -->
+          <g id="beam">
+            <path d="M60 74 Q140 64 220 66 Q300 64 380 74 L380 82 Q300 74 220 76 Q140 74 60 82 Z" fill="url(#sWoodH)"/>
+            <circle cx="220" cy="70" r="13" fill="url(#sBrass)"/>
+            <circle cx="220" cy="70" r="5" fill="#4a3410"/>
+          </g>
+          <path d="M213 58 L220 40 L227 58 Z" fill="url(#sBrass)"/>
+        </svg>
+      </figure>
+    </div>
+    <div id="fairOut"></div>
+  </section>
+
+  <!-- Hardware -->
+  <section class="panel" role="tabpanel" id="p-hw" aria-labelledby="t-hw" hidden>
+    <h2>Running on quantum hardware</h2>
+    <p class="meta" id="hwMeta"></p>
+    <div class="hwgrid" id="hwCharts"></div>
+    <div class="honest"><b>Honest finding:</b> the fair circuit is about 10× deeper than the standard one. On today's
+      noisy chips that noise washes out its fairness advantage. The algorithm is provably fair; the hardware is not yet
+      good enough to run it faithfully.</div>
+  </section>
+
+  <!-- How it works -->
+  <section class="panel" role="tabpanel" id="p-how" aria-labelledby="t-how" hidden>
+    <div class="label">How it works</div>
+    <p class="lead">A real fairness problem goes in, a quantum computer does the work, and a jury plus a checkable receipt comes out.</p>
+    <div class="frame">
+      <div class="fcard"><div class="step">Step 1</div><h4>Bridge in</h4>
+        <p>Each potential juror becomes one qubit (1 = selected). A cost scores how far a jury's mix of neighbourhood, age and gender is from the community's, and becomes a quantum operator.</p></div>
+      <div class="fcard"><div class="step">Step 2</div><h4>Quantum</h4>
+        <p>Standard QAOA finds balanced juries but plays favourites. Fair QAOA starts from every jury of the right size at once and uses a Grover mixer, which guarantees equally fair juries get equal chances.</p></div>
+      <div class="fcard"><div class="step">Step 3</div><h4>Bridge out</h4>
+        <p>The circuit is measured thousands of times. One of the fairest measured juries is picked at random, keeping the algorithm's own odds, and a receipt records every setting so the draw can be checked.</p></div>
+    </div>
+    <div class="label" style="margin-top:34px">Honest limits</div>
+    <ul class="limits">
+      <li>Small pools only: each juror is one qubit, and a normal computer solves these sizes easily.</li>
+      <li>Fair juries don't yet mean equal chances for every individual person.</li>
+      <li>Today's hardware is too noisy to run the fair circuit faithfully.</li>
+      <li>Synthetic people only; we balance neighbourhood, age group and gender, not race directly.</li>
+    </ul>
+  </section>
+</main>
+<div class="gcur" id="gcur" aria-hidden="true">
+  <svg viewBox="0 0 72 72" width="64" height="64">
+    <defs>
+      <linearGradient id="gHead" x1="0" x2="1"><stop offset="0" stop-color="#3a1608"/><stop offset=".22" stop-color="#8a3f1f"/><stop offset=".38" stop-color="#c06a3c"/><stop offset=".6" stop-color="#7a3214"/><stop offset="1" stop-color="#2a0f05"/></linearGradient>
+      <linearGradient id="gRim" x1="0" x2="1"><stop offset="0" stop-color="#2e1106"/><stop offset=".3" stop-color="#9a4a24"/><stop offset=".45" stop-color="#d18050"/><stop offset=".7" stop-color="#6e2c11"/><stop offset="1" stop-color="#240c04"/></linearGradient>
+      <linearGradient id="gBand" x1="0" x2="1"><stop offset="0" stop-color="#6b4a12"/><stop offset=".25" stop-color="#d9b25a"/><stop offset=".42" stop-color="#fff0b8"/><stop offset=".6" stop-color="#c99a3c"/><stop offset="1" stop-color="#5a3c0c"/></linearGradient>
+      <linearGradient id="gHandle" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a5502a"/><stop offset=".35" stop-color="#d07a48"/><stop offset=".6" stop-color="#7a3214"/><stop offset="1" stop-color="#2e1106"/></linearGradient>
+      <linearGradient id="gCap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3dc9a"/><stop offset=".5" stop-color="#b38b3c"/><stop offset="1" stop-color="#5e4416"/></linearGradient>
+    </defs>
+    <g class="gv">
+      <g transform="rotate(32 36 36)">
+        <!-- handle -->
+        <path d="M34 22.6 Q50 23.4 64 23.6 Q66 23.7 66 25 Q66 26.3 64 26.4 Q50 26.6 34 27.4 Z" fill="url(#gHandle)"/>
+        <rect x="63.5" y="22.8" width="5" height="4.4" rx="2" fill="url(#gCap)"/>
+        <!-- collar beads -->
+        <ellipse cx="30.5" cy="25" rx="2.6" ry="4.2" fill="url(#gHandle)"/>
+        <ellipse cx="34.2" cy="25" rx="2" ry="3.2" fill="url(#gHandle)"/>
+        <!-- head -->
+        <rect x="7" y="11" width="20" height="28" rx="2" fill="url(#gHead)"/>
+        <rect x="5" y="8" width="24" height="6.5" rx="3.2" fill="url(#gRim)"/>
+        <rect x="5" y="35.5" width="24" height="6.5" rx="3.2" fill="url(#gRim)"/>
+        <rect x="6.6" y="19.5" width="20.8" height="11" fill="url(#gBand)"/>
+        <rect x="6.6" y="19.5" width="20.8" height="1" fill="rgba(255,248,220,.6)"/>
+        <rect x="6.6" y="29.6" width="20.8" height=".9" fill="rgba(40,20,0,.5)"/>
+        <rect x="11" y="9" width="2.2" height="32" rx="1.1" fill="rgba(255,225,190,.18)"/>
+      </g>
+    </g>
+  </svg>
+</div>
+<footer class="foot">Qubench · IBM Qiskit Fall Fest 2026 · UW Quantum Club</footer>

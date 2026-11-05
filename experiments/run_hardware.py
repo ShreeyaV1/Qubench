@@ -38,7 +38,7 @@ from qubench.core import build_circuit  # noqa: E402
 OUT = ROOT / "results" / "hardware"
 FIG = ROOT / "results" / "figures"
 METHODS = ("standard", "fair")
-C_FAIR, C_STANDARD, INK_2, GRID, SURFACE = "#2a78d6", "#eb6834", "#5f5e58", "#e6e5e0", "#fcfcfb"
+C_FAIR, C_STANDARD, INK_2, GRID, SURFACE = "#a47a1f", "#8f2633", "#6b5a50", "#e0cfb1", "#f5ead6"
 
 
 def build_circuits(problem, reps):

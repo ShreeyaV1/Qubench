@@ -1,4 +1,4 @@
-# Qubench 
+# Qubench ⚖️⚛️
 **Quantum-fair jury selection: random, representative, and checkable.**
 Built with Qiskit for IBM Qiskit Fall Fest 2026 (UW Quantum Club).
 
@@ -31,23 +31,18 @@ print(result["receipt"])   # everything needed to check the draw
 | 12 choose 4 (9 equally fair juries) | Standard QAOA | 4% | 3.17× |
 | | **Fair QAOA (Grover mixer)** | **15%** | **1.00×** |
 
-
-### Standard QAOA plays favourites; fair QAOA doesn't
-<img width="100%" alt="Who gets picked" src="https://github.com/user-attachments/assets/882bd81f-e628-40f5-b757-e32234976247" />
-
-Nine juries are equally balanced, so each should be picked about 11% of the time. Standard QAOA picks some 3.2× more often than others; the Grover-mixer version treats all of them equally.
-
-### Fairer and better at finding fair juries
-<img width="100%" alt="Summary" src="https://github.com/user-attachments/assets/e28bf3ea-04a8-42af-b2a7-e28c86eba1ab" />
-
-### On a noisy IBM chip
-<img width="100%" alt="Noisy IBM chip" src="https://github.com/user-attachments/assets/f3b756fe-b6f2-4db1-9f48-32790064e03f" />
-
 On a **noisy simulation of a real IBM chip** (6 choose 2): the fair circuit needs ~400 two-qubit gates vs
 ~46 for standard QAOA, and noise washes out its advantage (fair 10% / 1.27×, standard 15% / 1.16×).
 The algorithm is provably fair; today's hardware isn't yet good enough to run it faithfully.
 
 ## Quick start
+**The website, running Qiskit live (recommended):**
+```bash
+python website/server.py        # opens the site; every draw runs the quantum circuit live
+```
+(Opening `website/index.html` directly also works; it then uses 20,000 real measurements saved from the same circuits.)
+
+**Everything else:**
 ```bash
 pip install -r requirements.txt
 python experiments/run_experiments.py      # all charts + numbers  (~1 min)

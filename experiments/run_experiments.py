@@ -26,8 +26,8 @@ FIG = ROOT / "results" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 
 # Colours (validated colour-blind-safe pair) - each method keeps its colour in every chart
-C_FAIR, C_STANDARD, C_NEUTRAL, C_POOL = "#2a78d6", "#eb6834", "#8d8c85", "#1baf7a"
-INK, INK_2, GRID, SURFACE = "#1f1f1e", "#5f5e58", "#e6e5e0", "#fcfcfb"
+C_FAIR, C_STANDARD, C_NEUTRAL, C_POOL = "#a47a1f", "#8f2633", "#302622", "#8f2633"
+INK, INK_2, GRID, SURFACE = "#302622", "#6b5a50", "#e0cfb1", "#f5ead6"
 plt.rcParams.update({
     "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,
     "axes.edgecolor": GRID, "axes.labelcolor": INK_2, "xtick.color": INK_2, "ytick.color": INK_2,
@@ -139,11 +139,12 @@ def chart_mix(problem, jury_idx, n, k):
     rows = mix_table(problem, jury_idx)
     labels = [r["group"] for r in rows]
     x = np.arange(len(rows))
-    w = 0.27
+    w = 0.36
     fig, ax = plt.subplots(figsize=(10, 4.2))
-    ax.bar(x - w - 0.02, [r["Community"] for r in rows], w, color=C_NEUTRAL, label="Community")
-    ax.bar(x, [r["Pool"] for r in rows], w, color=C_POOL, label="Juror pool (skewed)")
-    ax.bar(x + w + 0.02, [r["Jury"] for r in rows], w, color=C_FAIR, label="Qubench jury")
+    ax.bar(x - w / 2 - 0.01, [r["Pool"] for r in rows], w, color=C_POOL, label="Juror pool (skewed)")
+    ax.bar(x + w / 2 + 0.01, [r["Jury"] for r in rows], w, color=C_FAIR, label="Qubench jury")
+    ax.hlines([r["Community"] for r in rows], x - 0.42, x + 0.42, colors=C_NEUTRAL, linewidth=2.6,
+              label="Community's real share")
     ax.set_xticks(x, labels)
     ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
     ax.set_title(f"Skewed pool in, balanced jury out ({n} jurors, choose {k})", loc="left")
